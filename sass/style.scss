@@ -1,0 +1,199 @@
+@import "compass";
+
+//mixins
+@mixin flexbox() {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+@mixin flex($values) {
+  -webkit-box-flex: $values;
+  -moz-box-flex:  $values;
+  -webkit-flex:  $values;
+  -ms-flex:  $values;
+  flex:  $values;
+}
+@mixin flex-direction($value) {
+  -webkit-flex-direction: $value;
+  flex-direction: $value;
+}
+
+//Colors
+$color1: #2F389D;
+$color2: #181C7D;
+$darkLight: #666;
+$white: #EEE;
+$gray: #999;
+
+//Media queries
+$small-device: 500px;
+$medium-device: 800px;
+
+//Main styles
+html,body {
+  background-color: #F5F5F5;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+body{
+  @include flexbox();
+  @include flex-direction(column);
+  justify-content: space-between;
+  font-family: 'Roboto', sans-serif;
+
+}
+header {
+  background-color: $color1;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 110px;
+  @include flexbox();
+  @include flex-direction(column);
+  justify-content: space-between;
+  h1 {
+    height: 40px;
+    display: block;
+    margin: 0;
+    padding: 0.5em;
+    color: $white;
+    font-size: 2em;
+    @media all and (max-width: $small-device) {
+      font-size: 1.5em;
+      height: 30px;
+    }
+  }
+  nav {
+    width: 100%;
+    align-self: flex-end;
+    ul{
+      list-style: none;
+      margin: 0;
+      padding: 0 1em;
+      justify-content: flex-end;
+      @include flexbox();
+      flex-flow: row wrap;
+      background-color: $color2;
+      li {
+        a {
+          color: $white;
+          text-decoration: none;
+          display: block;
+          padding: 10px 10px 7px;
+          border-bottom: 3px solid $color2;
+          text-align: center;
+          font-size: 0.8em;
+          &:hover {
+            border-bottom: 3px solid $white;
+          }
+          @media all and (max-width: $small-device) {
+            font-size: 0.7em;
+            padding: 2px;
+          }
+        }
+      }
+
+      @media all and (max-width: $medium-device) {
+        justify-content: space-around;
+      }
+      @media all and (max-width: $small-device) {
+        @include flex-direction(column);
+      }
+    }
+  }
+  @media all and (max-width: $small-device) {
+    height: 150px;
+  }
+}
+#content {
+  // @include flex(1);
+  // @include flexbox();
+  width: calc(100% - 40px);
+  padding: 130px 20px 20px;
+  overflow-y: auto;
+  @media all and (max-width: $small-device) {
+    padding-top: 170px;
+  }
+  .grid {
+    -moz-column-gap: 1.5em;
+    -webkit-column-gap: 1.5em;
+    column-gap: 0.5em;
+    -moz-column-count: 3;
+    -webkit-column-count: 3;
+    column-count: 3;
+    width: 100%;
+    padding: 0;
+    list-style: none;
+    max-width: 100%;
+    @media all and (max-width: $small-device) {
+      -moz-column-count: 2;
+      -webkit-column-count: 2;
+      column-count: 2;
+    }
+    li {
+      display: inline-block;
+      background: #fff;
+      padding: 0.5em;
+      margin: 0 0 0.2em;
+      width: 100%;
+      box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.18);
+      @include box-sizing(border-box);
+      @include border-radius(3px);
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+    }
+  }
+  article {
+    @include flexbox();
+    flex-wrap: wrap;
+    p {
+      padding: 2%;
+      text-align: justify;
+      width: 29%;
+      @media all and (max-width: $medium-device) {
+        width: 47%;
+        padding: 1%;
+      }
+      @media all and (max-width: $small-device) {
+        padding: 0;
+        width: 100%;
+      }
+    }
+  }
+}
+footer {
+  background-color: $white;
+  border-top: 1px solid $gray;
+  padding-bottom: 5px;
+  nav {
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0 1em;
+      @include flexbox();
+      flex-flow: row wrap;
+      justify-content: center;
+      li {
+        a {
+          text-decoration: none;
+          display: block;
+          padding: 10px 10px 7px;
+          text-align: center;
+          font-size: 0.8em;
+          color: $darkLight;
+          border-bottom: 3px solid $white;
+          font-size: 1em;
+          &:hover {
+            border-bottom: 3px solid $gray;
+          }
+        }
+      }
+    }
+  }
+}

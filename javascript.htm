@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Javascript</title>
+    <link rel="stylesheet" href="css/style2.css">
+  </head>
+  <body>
+    <header>
+      <h1>My menu</h1>
+      <nav>
+        <ul></ul>
+      </nav>
+    </header>
+
+    <script type="text/javascript">
+    const treemenu = {
+      'loadJSON': callback => {
+        const xobj = new XMLHttpRequest();
+        xobj.overrideMimeType("application/json");
+        xobj.open('GET', 'js/menu.json', true);
+        xobj.onreadystatechange = function() {
+          if (xobj.readyState == 4 && xobj.status == "200") {
+            callback(JSON.parse(xobj.responseText));
+          }
+        };
+        xobj.send(null);
+      },
+      'init': function(){
+        const self=this;
+        self.loadJSON(function(result){
+          self.build_tree(result.menu, self)
+        })
+      },
+      'build_tree': (json,self) => {
+        console.log(json);
+        json.forEach(item => {
+          const ul=document.querySelector('nav>ul'),
+                li= self.create_item(item);
+          ul.appendChild(li);
+          if(!item.leaf){
+            self.add_submenu(li, item.menu, self);
+          }
+        });
+      },
+      'create_item': item => {
+        const li=document.createElement('li'),
+              a=document.createElement('a');
+        a.innerHTML = item.description;
+        a.setAttribute('href','#');
+        a.setAttribute('id',item.id);
+        if(item.cssClass){
+          a.setAttribute('class',item.cssClass);
+        }
+        li.appendChild(a);
+        return li;
+      },
+      'add_submenu': (li,menu,self) => {
+        const ul= document.createElement('ul');
+        menu.forEach(item => {
+          const sLi= self.create_item(item);
+          ul.appendChild(sLi)
+        });
+        li.appendChild(ul);
+        const a=li.querySelector('a');
+        a.addEventListener('click', ev => {
+          ev.preventDefault();
+          ul.style.opacity = (ul.style.opacity==0)?1:0;
+        })
+      }
+    }
+    treemenu.init();
+    </script>
+  </body>
+</html>
